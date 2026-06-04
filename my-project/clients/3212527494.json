@@ -1,6 +1,6 @@
 {
-  "phone" : 3212527494,
-  "email" : "jctobon@gmail.com",
   "last_name" : "Tobon",
-  "name" : "Juan"
+  "name" : "Juan",
+  "templates/email" : "jctobon@gmail.com",
+  "phone" : 3212527494
 }

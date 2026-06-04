@@ -24,7 +24,7 @@ public class StorePqrProcess implements JavaDelegate {
         String clientPqr = (String) delegateExecution.getVariable("client_pqr");
         String clientPqrDescription = (String) delegateExecution.getVariable("client_pqr_description");
         Number clientPhoneNum = (Number) delegateExecution.getVariable("client_phone");
-        String email = (String) delegateExecution.getVariable("email");
+        String email = (String) delegateExecution.getVariable("client_email");
         Long clientPhone = clientPhoneNum.longValue();
         UUID id = UUID.randomUUID();
         PQR pqr = PQR.builder()

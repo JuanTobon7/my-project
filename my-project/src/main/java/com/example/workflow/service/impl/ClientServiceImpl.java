@@ -37,7 +37,6 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public String getResult(UUID id) {
         PQR pqr = pqrRepository.getById(id);
-        System.out.println("pqr:"+pqr);
         return pqr.getIsProcessed()?"PQR procesada":"PQR no procesada";
     }
 }

@@ -1,0 +1,293 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PQR No Resuelto - Información</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 50px 40px;
+            text-align: center;
+            max-width: 600px;
+            animation: slideIn 0.6s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .warning-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-10px);
+            }
+            75% {
+                transform: translateX(10px);
+            }
+        }
+        
+        .x-mark {
+            color: white;
+            font-size: 60px;
+            font-weight: bold;
+            line-height: 100px;
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 36px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            color: #f5576c;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .details {
+            background: #fff5f5;
+            border-left: 4px solid #f5576c;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+            text-align: left;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #fdd;
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .detail-label {
+            color: #555;
+            font-weight: 600;
+        }
+        
+        .detail-value {
+            color: #f5576c;
+            font-weight: 700;
+        }
+        
+        .reason-section {
+            background: #fafafa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .reason-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .reason-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .reason-list li {
+            color: #666;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        
+        .reason-list li:before {
+            content: "• ";
+            color: #f5576c;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .reason-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .actions {
+            margin-top: 40px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(245, 87, 108, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+        
+        .info-box {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #856404;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="warning-icon">
+            <span class="x-mark">✕</span>
+        </div>
+        
+        <h1>PQR No Resuelta</h1>
+        <div class="subtitle">Tu solicitud requiere revisión adicional</div>
+        
+        <p>Después de revisar tu Petición, Queja o Reclamo, determinamos que no podemos proceder con la resolución solicitada en este momento.</p>
+        
+        <div class="details">
+            <div class="detail-item">
+                <span class="detail-label">Estado:</span>
+                <span class="detail-value">Rechazada</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Fecha de Revisión:</span>
+                <span class="detail-value" id="fecha">--</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Número de Radicado:</span>
+                <span class="detail-value" id="radicado">--</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Responsable:</span>
+                <span class="detail-value">Área de Atención al Cliente</span>
+            </div>
+        </div>
+        
+        <div class="reason-section">
+            <h3>Motivos de la No Resolución:</h3>
+            <ul class="reason-list">
+                <li>Información incompleta o insuficiente</li>
+                <li>Falta de documentación de apoyo requerida</li>
+                <li>La solicitud no se encuentra dentro de nuestras políticas</li>
+                <li>Se requiere verificación adicional de datos</li>
+            </ul>
+        </div>
+        
+        <div class="info-box">
+            <strong>Importante:</strong> Puedes presentar una apelación o reenviar tu solicitud con información adicional. Contáctanos para más detalles.
+        </div>
+        
+        <p><strong>¿Qué puedes hacer?</strong></p>
+        <p>Si consideras que esta decisión es incorrecta, tienes derecho a presentar una apelación o solicitar una revisión adicional proporcionando documentación complementaria.</p>
+        
+        <div class="actions">
+            <button class="btn-primary" onclick="apelar()">Presentar Apelación</button>
+            <button class="btn-secondary" onclick="volver()">Volver al Sistema</button>
+        </div>
+    </div>
+    
+    <script>
+        function llenarDatos() {
+            const hoy = new Date();
+            document.getElementById('fecha').textContent = hoy.toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('radicado').textContent = 'PQR-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        }
+        
+        function apelar() {
+            alert('Se abrirá el formulario de apelación - Próximamente disponible');
+            window.location.href = '/api/appeal';
+        }
+        
+        function volver() {
+            window.location.href = '/api/dashboard';
+        }
+        
+        window.addEventListener('load', () => {
+            llenarDatos();
+        });
+    </script>
+</body>
+</html>

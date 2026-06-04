@@ -24,9 +24,7 @@ public class PqrRepositoryImpl implements PqrRepository {
 
     @Override
     public PQR getById(UUID id) {
-        System.out.println("id:"+id);
         List<Map<String, Object>> allPqr = jsonStore.getAll("pqr_processed");
-        System.out.println("allPqr:"+allPqr);
         return allPqr.stream()
                     .map(PQR::fromMap)
                     .filter(pqr -> pqr.getId().equals(id))

@@ -55,6 +55,8 @@ public class PqrRestController {
             @RequestBody PQR pqr,
             @RequestParam("task_id") String taskId
     ) {
+        System.out.println(pqr);
+        System.out.println("email"+pqr.getEmail());
         taskService.complete(taskId, pqr.toMap());
         return ResponseEntity.ok().build();
     }

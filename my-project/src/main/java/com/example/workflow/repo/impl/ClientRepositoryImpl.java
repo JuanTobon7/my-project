@@ -28,7 +28,7 @@ public class ClientRepositoryImpl implements ClientRepository {
         List<Map<String, Object>> clients = jsonStore.getAll("clients");
         return clients.stream()
                 .anyMatch(c -> Objects.equals(
-                        ((String) c.get("email")), email
+                        ((String) c.get("templates/email")), email
                 ));
     }
 

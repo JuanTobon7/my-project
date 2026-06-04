@@ -1,6 +1,6 @@
 {
-  "phone" : 123456710,
-  "email" : "jhondoe@gmail.com",
   "last_name" : "Garcia",
-  "name" : "Carlos"
+  "name" : "Carlos",
+  "templates/email" : "jhondoe@gmail.com",
+  "phone" : 123456710
 }

@@ -5,8 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -21,13 +19,13 @@ public class SeederClient implements CommandLineRunner {
                 "name", "Juan",
                 "last_name", "Tobon",
                 "phone", 3212527494L,
-                    "email", "jctobon@gmail.com"
+                    "templates/email", "jctobon@gmail.com"
             ),
             Map.of(
              "name", "Carlos",
              "last_name", "Garcia",
              "phone", 123456710L,
-            "email", "jhondoe@gmail.com"
+                    "templates/email", "jhondoe@gmail.com"
             )
         );
         clientRepository.saveAll(clients);

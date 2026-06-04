@@ -1,0 +1,261 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PQR Resuelto - Éxito</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 50px 40px;
+            text-align: center;
+            max-width: 600px;
+            animation: slideIn 0.6s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .checkmark {
+            color: white;
+            font-size: 60px;
+            font-weight: bold;
+            line-height: 100px;
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 36px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            color: #667eea;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .details {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+            text-align: left;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .detail-label {
+            color: #555;
+            font-weight: 600;
+        }
+        
+        .detail-value {
+            color: #667eea;
+            font-weight: 700;
+        }
+        
+        .actions {
+            margin-top: 40px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #667eea;
+            pointer-events: none;
+            animation: confettiFall 3s ease-in forwards;
+        }
+        
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">
+            <span class="checkmark">✓</span>
+        </div>
+        
+        <h1>¡Felicidades!</h1>
+        <div class="subtitle">Tu PQR ha sido resuelto</div>
+        
+        <p>Nos complace informarte que tu Petición, Queja o Reclamo ha sido procesado exitosamente y se ha encontrado una solución satisfactoria.</p>
+        
+        <div class="details">
+            <div class="detail-item">
+                <span class="detail-label">Estado:</span>
+                <span class="detail-value">✓ Resuelto</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Fecha de Resolución:</span>
+                <span class="detail-value" id="fecha">--</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Número de Radicado:</span>
+                <span class="detail-value" id="radicado">--</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Tiempo de Respuesta:</span>
+                <span class="detail-value" id="tiempo">--</span>
+            </div>
+        </div>
+        
+        <p><strong>Próximos pasos:</strong></p>
+        <p>Tu PQR ha sido resuelto. Si tienes alguna pregunta adicional o no estás satisfecho con la solución, no dudes en contactarnos nuevamente.</p>
+        
+        <div class="actions">
+            <button class="btn-primary" onclick="volver()">Volver al Sistema</button>
+            <button class="btn-secondary" onclick="descargar()">Descargar Constancia</button>
+        </div>
+    </div>
+    
+    <script>
+        function crearConfeti() {
+            for (let i = 0; i < 50; i++) {
+                const confeti = document.createElement('div');
+                confeti.className = 'confetti';
+                confeti.style.left = Math.random() * 100 + '%';
+                confeti.style.delay = Math.random() * 0.3 + 's';
+                confeti.style.background = ['#667eea', '#764ba2', '#f093fb', '#4facfe'][Math.floor(Math.random() * 4)];
+                document.body.appendChild(confeti);
+                setTimeout(() => confeti.remove(), 3300);
+            }
+        }
+        
+        function llenarDatos() {
+            const hoy = new Date();
+            document.getElementById('fecha').textContent = hoy.toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('radicado').textContent = 'PQR-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            document.getElementById('tiempo').textContent = '5 días hábiles';
+        }
+        
+        function volver() {
+            window.location.href = '/api/dashboard';
+        }
+        
+        function descargar() {
+            alert('Función de descarga de constancia - Próximamente disponible');
+        }
+        
+        window.addEventListener('load', () => {
+            crearConfeti();
+            llenarDatos();
+        });
+    </script>
+</body>
+</html>

@@ -15,6 +15,8 @@ import java.util.List;
 public class NotifyResultsProcess implements JavaDelegate {
     private final PqrRepository pqrRepository;
     private final EmailService emailService;
+    private static final String ACCEPTED_FILE = "pqr-resuelto.html";
+    private static final String REJECTED_FILE = "pqr-no-resuelto.html";
 
     private static final String SUBJECT = "Resultado de tu PQR";
     @Override
@@ -23,6 +25,7 @@ public class NotifyResultsProcess implements JavaDelegate {
         PQR pqr = pqrRepository.getLastByEmail(email);
         Boolean isProcessed = pqr.getIsProcessed();
         String result = isProcessed?"Felicidades tu PQR ha sido procesada":"Lo sentimos tu PQR no fue admitida";
-        emailService.sendEmail(email,SUBJECT,result);
+        String file = isProcessed?ACCEPTED_FILE:REJECTED_FILE;
+        emailService.sendEmail(email,SUBJECT,result, file);
     }
 }
