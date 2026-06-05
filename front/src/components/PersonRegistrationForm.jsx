@@ -1,12 +1,15 @@
 // components/PersonRegistrationForm.jsx
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   fetchAndLockTask,
   completeExternalTask,
   reportTaskFailure
 } from "../services/camundaService";
+import "./PersonRegistrationForm.css";
 
 export default function PersonRegistrationForm() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     personName:     "",
     personLastName: "",
@@ -49,39 +52,88 @@ export default function PersonRegistrationForm() {
   };
 
   return (
-    <div>
-      <h2>Registro de Persona</h2>
+    <div className="person-registration-container">
+      <nav className="registration-navbar">
+        <div className="registration-nav-content">
+          <div className="registration-nav-brand">
+            <h1>👤 Registro de Persona</h1>
+            <p>Complete el formulario con sus datos</p>
+          </div>
+          <button className="btn-back-nav" onClick={() => navigate("/")}>
+            ← Volver
+          </button>
+        </div>
+      </nav>
 
-      <input
-        placeholder="Nombre"
-        value={formData.personName}
-        onChange={handleChange("personName")}
-      />
-      <input
-        placeholder="Apellido"
-        value={formData.personLastName}
-        onChange={handleChange("personLastName")}
-      />
-      <input
-        placeholder="Teléfono"
-        value={formData.numberPhone}
-        onChange={handleChange("numberPhone")}
-      />
-      <input
-        placeholder="Email"
-        value={formData.email}
-        onChange={handleChange("email")}
-      />
+      <div className="registration-content">
+        <div className="registration-card">
+          <form className="registration-form">
+            <div className="form-group">
+              <label>Nombre *</label>
+              <input
+                type="text"
+                placeholder="Ingresa tu nombre"
+                value={formData.personName}
+                onChange={handleChange("personName")}
+              />
+            </div>
 
-      <button onClick={handleSubmit} disabled={status === "loading"}>
-        {status === "loading" ? "Enviando..." : "Enviar datos"}
-      </button>
+            <div className="form-group">
+              <label>Apellido *</label>
+              <input
+                type="text"
+                placeholder="Ingresa tu apellido"
+                value={formData.personLastName}
+                onChange={handleChange("personLastName")}
+              />
+            </div>
 
-      {message && (
-        <p style={{ color: status === "error" ? "red" : "green" }}>
-          {message}
-        </p>
-      )}
+            <div className="form-group">
+              <label>Teléfono *</label>
+              <input
+                type="tel"
+                placeholder="Ingresa tu teléfono"
+                value={formData.numberPhone}
+                onChange={handleChange("numberPhone")}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Email *</label>
+              <input
+                type="email"
+                placeholder="Ingresa tu email"
+                value={formData.email}
+                onChange={handleChange("email")}
+              />
+            </div>
+
+            {message && (
+              <div className={`message message-${status}`}>
+                {message}
+              </div>
+            )}
+
+            <div className="form-actions">
+              <button
+                type="button"
+                className="btn-submit"
+                onClick={handleSubmit}
+                disabled={status === "loading"}
+              >
+                {status === "loading" ? "Enviando..." : "Enviar Datos"}
+              </button>
+              <button
+                type="button"
+                className="btn-cancel"
+                onClick={() => navigate("/")}
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

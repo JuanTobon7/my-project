@@ -1,5 +1,6 @@
 // App.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { ClientProvider, useClient } from './context/ClientContext';
 import ClientLoginForm from './components/ClientLoginForm';
 import Dashboard from './components/Dashboard';
@@ -8,7 +9,6 @@ import './App.css';
 
 const AppContent = () => {
   const { client, loadClientFromStorage } = useClient();
-  const [currentPage, setCurrentPage] = useState("dashboard");
 
   useEffect(() => {
     loadClientFromStorage();
@@ -18,12 +18,11 @@ const AppContent = () => {
 
   return (
     <div className="app">
-      {currentPage === "dashboard" && (
-        <Dashboard onNavigate={setCurrentPage} />
-      )}
-      {currentPage === "register-person" && (
-        <PersonRegistrationForm onBack={() => setCurrentPage("dashboard")} />
-      )}
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/register-person" element={<PersonRegistrationForm />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
     </div>
   );
 };

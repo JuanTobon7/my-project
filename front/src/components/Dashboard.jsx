@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useClient } from '../context/ClientContext';
 import CreatePqrForm from './CreatePqrForm';
 import PqrList from './PqrList';
@@ -6,6 +7,7 @@ import PqrResultView from './PqrResultView';
 import './Dashboard.css';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const { client, logout } = useClient();
   const [view, setView] = useState('list'); // 'list', 'create', 'result'
   const [selectedPqr, setSelectedPqr] = useState(null);
@@ -50,6 +52,9 @@ const Dashboard = () => {
               <p className="user-name">{client.name} {client.lastName}</p>
               <p className="user-email">{client.email}</p>
             </div>
+            <button className="btn-register-person" onClick={() => navigate('/register-person')}>
+              Registrar Persona
+            </button>
             <button className="btn-logout" onClick={handleLogout}>
               Cerrar Sesión
             </button>
