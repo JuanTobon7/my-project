@@ -19,7 +19,7 @@ public class PQR {
     private String clientLastName;
     private Long clientPhone;
     private String pqrType;
-    private String email;
+    private String clientEmail;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime progationDate;
     private Boolean isProcessed;
@@ -35,7 +35,7 @@ public class PQR {
         map.put("client_last_name", clientLastName != null ? clientLastName : "");
         map.put("client_phone",  clientPhone != null ? clientPhone : 0L);
         map.put("pqr_type",      pqrType != null ? pqrType : "DESCONOCIDO");
-        map.put("client_email",        email != null ? email : "");
+        map.put("client_email",        clientEmail != null ? clientEmail : "");
         map.put("date",         progationDate != null ? progationDate : date);
         map.put("is_processed",  isProcessed != null ? isProcessed : false);
         return map;
@@ -64,7 +64,7 @@ public class PQR {
                 .clientLastName((String) map.get("client_last_ame"))
                 .clientPhone(clientPhone)
                 .progationDate(date)
-                .email((String) map.get("client_email"))
+                .clientEmail((String) map.get("client_email"))
                 .pqrType((String) map.get("pqr_type"))
                 .isProcessed((Boolean) map.get("is_processed"))
                 .build();

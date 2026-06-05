@@ -18,7 +18,7 @@ public class PqrRepositoryImpl implements PqrRepository {
         List<Map<String, Object>> allPqr = jsonStore.getAll("pqr_processed");
         return allPqr.stream()
                 .map(PQR::fromMap)
-                .filter(pqr -> pqr.getEmail().equals(email))
+                .filter(pqr -> pqr.getClientEmail().equals(email))
                 .toList();
     }
 
@@ -34,9 +34,10 @@ public class PqrRepositoryImpl implements PqrRepository {
     @Override
     public Optional<PQR> getLastByEmail(String email) {
         List<Map<String, Object>> allPqr = jsonStore.getAll("pqr_processed");
+        if (allPqr.isEmpty()) return Optional.empty();
         return allPqr.stream()
                 .map(PQR::fromMap)
-                .filter(pqr -> pqr.getEmail().equals(email)).min(Comparator.comparing(
+                .filter(pqr -> pqr.getClientEmail().equals(email)).min(Comparator.comparing(
                         PQR::getProgationDate,
                         Comparator.nullsLast(Comparator.reverseOrder()) // más reciente primero
                 ));

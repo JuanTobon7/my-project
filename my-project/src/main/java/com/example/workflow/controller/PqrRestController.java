@@ -31,18 +31,21 @@ public class PqrRestController {
             @RequestBody StartPqrRequest request
             ) {
 
+        Boolean existence = clientService.getExistenceByEmail(request.email());
         // Variables que tu ProcessPqr.java ya espera
         Map<String, Object> variables = Map.of(
                 "client_pqr",             request.pqrType().toString(),
-                "client_pqr_description", request.description()
+                "client_pqr_description", request.description(),
+                "client_in_system", existence,
+                "client_email", request.email()
         );
-        Boolean existence = clientService.getExistenceByEmail(request.email());
-        var instance = runtimeService.startProcessInstanceByKey(
+        var instance = runtimeService.startProcessInstanceByKey( //Arranca el proceso de Camunda con las variables requeridas
                 "process_pqr_ambient",   // <-- el id="ProcessPqr" de tu .bpmn
                 variables
         );
+        if(!existence) return ResponseEntity.badRequest().body(
+                Map.of("message","Lo sentimos, no perteneces a nuestro sistema"));
         runtimeService.setVariable(instance.getId(), "client_in_system", existence);
-
         return ResponseEntity.ok(Map.of(
                 "instanceId",          instance.getId(),
                 "processDefinitionId", instance.getProcessDefinitionId(),
@@ -55,9 +58,7 @@ public class PqrRestController {
             @RequestBody PQR pqr,
             @RequestParam("task_id") String taskId
     ) {
-        System.out.println("Guardando PQR:");
-        taskService.complete(taskId, pqr.toMap());
-        System.out.println("PQR guardada");
+        taskService.complete(taskId, pqr.toMap()); //Inicia StoreProcessPqr
         return ResponseEntity.ok().build();
     }
 

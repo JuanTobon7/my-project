@@ -40,7 +40,6 @@ public class JsonStore {
             }
 
             String fileName = name  + ".json";
-            System.out.println("Guardar archivo: " +fileName);
             File outputFile = folderPath
                     .resolve(fileName)
                     .toFile();

@@ -1,11 +1,14 @@
 package com.example.workflow.repo.interf;
 
+import com.example.workflow.model.Clients;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public interface ClientRepository {
-    void saveAll(List<Map<String, Object>> client);
+    void saveAll(List<Clients> client);
     boolean existsByEmail(String email);
-    Optional<Map<String, Object>> findByNumberPhone(Long number);
+    Optional<Clients> findByNumberPhone(Long number);
+    void save(Clients client);
 }

@@ -84,6 +84,7 @@ const CreatePqrForm = ({ onSuccess, onCancel }) => {
         description: formData.description,
         clientName: client.name,
         clientLastName: client.lastName,
+        clientEmail: client.email,
         clientPhone: parseInt(client.phone),
         pqrType: formData.pqrType,
         progationDate: new Date().toISOString(),

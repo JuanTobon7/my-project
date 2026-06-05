@@ -1,5 +1,6 @@
 package com.example.workflow.config;
 
+import com.example.workflow.model.Clients;
 import com.example.workflow.repo.interf.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -26,15 +27,10 @@ public class SeederClient implements CommandLineRunner {
              "last_name", "Garcia",
              "phone", 123456710L,
                     "email", "jhondoe@gmail.com"
-            ),
-            Map.of(
-                    "name", "Jhon",
-                    "last_name", "Doe",
-                    "phone", 111L,
-                    "email", "koyat39329@dosbee.com"
             )
         );
-        clientRepository.saveAll(clients);
+        List<Clients> clients1 = clients.stream().map(Clients::fromMap).toList();
+        clientRepository.saveAll(clients1);
 
     }
 }

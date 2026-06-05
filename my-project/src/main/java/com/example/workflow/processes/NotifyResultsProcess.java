@@ -19,10 +19,19 @@ public class NotifyResultsProcess implements JavaDelegate {
     private static final String ACCEPTED_FILE = "pqr-resuelto.html";
     private static final String REJECTED_FILE = "pqr-no-resuelto.html";
     private static final String SUBJECT = "Resultado de tu PQR";
+    private static final String NO_REGISTERED = "No se encuentra registrado";
+
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
         String email = (String) delegateExecution.getVariable("client_email");
+        Boolean clientIsInSystem = (Boolean) delegateExecution.getVariable("client_in_system");
+        if(!clientIsInSystem){
+            String result = "No perteneces al sistema ingresa por favor con el link:" +
+                    "http://localhost:3000/register-person";
+            emailService.sendEmail(email,NO_REGISTERED,result, null);
+            return;
+        }
         Optional<PQR> pqr = pqrRepository.getLastByEmail(email);
         boolean isProcessed = pqr.isPresent() && pqr.get().getIsProcessed();
         String result = isProcessed ? "Felicidades tu PQR ha sido procesada" : "Lo sentimos tu PQR no fue admitida";
