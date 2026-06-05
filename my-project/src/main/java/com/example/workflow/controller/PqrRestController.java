@@ -39,7 +39,7 @@ public class PqrRestController {
 
         // ← usar correlateMessage en vez de startProcessInstanceByKey
         var instance = runtimeService.startProcessInstanceByKey(
-                "process_pqr_ambient",
+                "pqr_great_parent",
                 variables
         );
         System.out.println("instancia "+ instance.getId());

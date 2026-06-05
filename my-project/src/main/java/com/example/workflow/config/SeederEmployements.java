@@ -1,6 +1,7 @@
 package com.example.workflow.config;
 
 import com.example.workflow.model.People;
+import com.example.workflow.repo.impl.PeopleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class SeederEmployements implements CommandLineRunner {
+    private final PeopleRepository peopleRepository;
     @Override
     public void run(String... args) throws Exception {
         List<People> employements = List.of(
@@ -26,6 +28,8 @@ public class SeederEmployements implements CommandLineRunner {
                     .phone(123456781L)
                     .build()
         );
+
+        peopleRepository.saveAll(employements);
     }
 
 }

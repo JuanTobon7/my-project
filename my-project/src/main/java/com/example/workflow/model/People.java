@@ -18,7 +18,7 @@ public class People {
                 .name((String) map.get("name"))
                 .lastName((String) map.get("last_name"))
                 .email((String) map.get("email"))
-                .phone((Long) map.get("phone"))
+                .phone(((Number) map.get("phone")).longValue())
                 .build();
     }
 

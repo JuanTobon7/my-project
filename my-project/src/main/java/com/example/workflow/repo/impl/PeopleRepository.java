@@ -14,6 +14,8 @@ public class PeopleRepository {
     private final JsonStore jsonStore;
 
     public void save(People p) {
+        System.out.println("Guardando: " + p.getPhone());
+        System.out.println("Guardando: " + p.getPhone().toString());
         jsonStore.save(p.toMap(), p.getPhone().toString(),"employements");
     }
 
@@ -25,6 +27,12 @@ public class PeopleRepository {
         return findAll().stream()
                 .filter(p -> p.getPhone().equals(phone))
                 .findFirst().orElse(null);
+    }
+
+    public void saveAll(List<People> people) {
+        for (People p: people) {
+            save(p);
+        }
     }
 
 }
