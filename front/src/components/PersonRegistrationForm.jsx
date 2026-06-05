@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import {
   fetchAndLockTask,
   completeExternalTask,
-  reportTaskFailure
+  reportTaskFailure,
+  startRegisterProcess
 } from "../services/camundaService";
 import "./PersonRegistrationForm.css";
 
@@ -23,33 +24,43 @@ export default function PersonRegistrationForm() {
     setFormData({ ...formData, [field]: e.target.value });
 
   const handleSubmit = async () => {
-    setStatus("loading");
+  setStatus("loading");
+  setMessage("Iniciando proceso...");
+
+  let task = null;
+
+  try {
+    // 1. Iniciar el proceso
+    await startRegisterProcess();
+
+    // 2. Pequeña espera para que Camunda registre la tarea
+    await new Promise(resolve => setTimeout(resolve, 500));
+
     setMessage("Buscando tarea disponible...");
 
-    let task = null;
+    // 3. Hacer fetchAndLock
+    task = await fetchAndLockTask("receive-person-data");
 
-    try {
-      task = await fetchAndLockTask("receive-person-data");
-
-      if (!task) {
-        setStatus("error");
-        setMessage("No hay proceso esperando datos en este momento.");
-        return;
-      }
-
-      setMessage("Tarea encontrada. Enviando datos...");
-
-      await completeExternalTask(task.id, formData);
-
-      setStatus("success");
-      setMessage("Datos enviados. El proceso continúa automáticamente.");
-
-    } catch (error) {
-      if (task) await reportTaskFailure(task.id, error.message);
+    if (!task) {
       setStatus("error");
-      setMessage("Error: " + error.message);
+      setMessage("No hay proceso esperando datos en este momento.");
+      return;
     }
-  };
+
+    setMessage("Tarea encontrada. Enviando datos...");
+
+    // 4. Completar la tarea
+    await completeExternalTask(task.id, formData);
+
+    setStatus("success");
+    setMessage("Datos enviados. El proceso continúa automáticamente.");
+
+  } catch (error) {
+    if (task) await reportTaskFailure(task.id, error.message);
+    setStatus("error");
+    setMessage("Error: " + error.message);
+  }
+};
 
   return (
     <div className="person-registration-container">

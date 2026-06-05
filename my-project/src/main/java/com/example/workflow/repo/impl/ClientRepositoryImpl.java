@@ -26,7 +26,6 @@ public class ClientRepositoryImpl implements ClientRepository {
     @Override
     public boolean existsByEmail(String email) {
         List<Map<String, Object>> clients = jsonStore.getAll("clients");
-        System.out.println("clients: "+clients);
         return clients.stream()
                 .anyMatch(c -> Objects.equals(
                         ((String) c.get("email")), email

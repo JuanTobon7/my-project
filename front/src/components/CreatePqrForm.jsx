@@ -1,5 +1,5 @@
+// components/CreatePqrForm.jsx
 import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { useClient } from '../context/ClientContext';
 import pqrService from '../services/pqrService';
 import './CreatePqrForm.css';
@@ -39,79 +39,87 @@ const CreatePqrForm = ({ onSuccess, onCancel }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    setFormData({ ...formData, [name]: value });
     if (errors[name]) {
-      setErrors({
-        ...errors,
-        [name]: ''
-      });
+      setErrors({ ...errors, [name]: '' });
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     setLoading(true);
 
     try {
-      // ✅ PASO 1: Iniciar el proceso en Camunda
+      // PASO 1: Iniciar el proceso en Camunda
       console.log('✅ PASO 1: Iniciando proceso PQR...');
-      const startResponse = await pqrService.startPqrProcess(
-        formData.pqrType,
-        formData.description,
-        client.email
-      );
-      const instanceId = startResponse.data.instanceId;
-      console.log('✅ PASO 1 Éxito - instanceId:', instanceId);
+      let instanceId;
 
-      // ✅ PASO 2: Obtener el taskId pendiente
+      try {
+        const startResponse = await pqrService.startPqrProcess(
+          formData.pqrType,
+          formData.description,
+          client.email
+        );
+        instanceId = startResponse.data.instanceId;
+        console.log('✅ PASO 1 Éxito - instanceId:', instanceId);
+
+      } catch (startError) {
+        // Si es 404, el cliente no existe en el sistema pero el proceso arrancó
+        if (startError.response?.status === 404) {
+          instanceId = startError.response.data.instanceId;
+          console.log('⚠️ Cliente no en sistema, proceso arrancó igual - instanceId:', instanceId);
+          setSuccessMessage('Tu solicitud fue enviada. Recibirás un correo con instrucciones.');
+          setFormData({ pqrType: '', description: '' });
+          setTimeout(() => {
+            setSuccessMessage('');
+            if (onSuccess) onSuccess();
+          }, 2000);
+          return;
+        }
+        throw startError; // otros errores sí se propagan
+      }
+
+      // PASO 2: Obtener el taskId pendiente
       console.log('✅ PASO 2: Obteniendo taskId del proceso...');
       const taskResponse = await pqrService.getPendingTask(instanceId);
       const taskId = taskResponse.data.taskId;
       console.log('✅ PASO 2 Éxito - taskId:', taskId);
 
-      // ✅ PASO 3: Construir objeto PQR completo
+      // PASO 3: Construir objeto PQR completo
       console.log('✅ PASO 3: Construyendo objeto PQR...');
       const completePqr = {
-        pqr: `PQR-${Date.now()}`,
-        description: formData.description,
-        clientName: client.name,
+        pqr:           `PQR-${Date.now()}`,
+        description:   formData.description,
+        clientName:    client.name,
         clientLastName: client.lastName,
-        clientEmail: client.email,
-        clientPhone: parseInt(client.phone),
-        pqrType: formData.pqrType,
+        clientEmail:   client.email,
+        clientPhone:   parseInt(client.phone),
+        pqrType:       formData.pqrType,
         progationDate: new Date().toISOString(),
-        isProcessed: false
+        isProcessed:   false
       };
       console.log('Objeto PQR:', completePqr);
 
-      // ✅ PASO 4: Guardar PQR y completar tarea Camunda
+      // PASO 4: Guardar PQR y completar tarea Camunda
       console.log('✅ PASO 4: Guardando PQR en base de datos...');
       const saveResponse = await pqrService.savePqr(completePqr, taskId);
       console.log('✅ PASO 4 Éxito - Respuesta:', saveResponse.data);
 
       setSuccessMessage('¡PQR creada exitosamente!');
-      setFormData({
-        pqrType: '',
-        description: ''
-      });
+      setFormData({ pqrType: '', description: '' });
 
       setTimeout(() => {
         setSuccessMessage('');
         if (onSuccess) onSuccess();
       }, 2000);
+
     } catch (error) {
       console.error('❌ Error en el proceso:', error);
-      const errorMessage = error.response?.data?.message || error.message || 'Error al crear la PQR';
       setErrors({
-        submit: errorMessage
+        submit: error.response?.data?.message || error.message || 'Error al crear la PQR'
       });
     } finally {
       setLoading(false);

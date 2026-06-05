@@ -1,12 +1,25 @@
 // services/camundaService.js
 
-const CAMUNDA_ENGINE = "http://localhost:8080/engine-rest";
+const CAMUNDA_ENGINE = "http://localhost:8080/api/engine-rest";
 export const WORKER_ID = "react-frontend-worker";
 
-/**
- * Hace fetch + lock en una sola operación atómica.
- * Retorna la tarea si hay una disponible, o null si no hay ninguna.
- */
+export async function startRegisterProcess() {
+  const response = await fetch(
+    `${CAMUNDA_ENGINE}/process-definition/key/store_people_in_crm/start`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ variables: {} })
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Error al iniciar proceso: ${response.status}`);
+  }
+
+  return await response.json();
+}
+
 export async function fetchAndLockTask(topic) {
   const response = await fetch(
     `${CAMUNDA_ENGINE}/external-task/fetchAndLock`,
@@ -20,7 +33,7 @@ export async function fetchAndLockTask(topic) {
         topics: [
           {
             topicName: topic,
-            lockDuration: 60000 // 60 segundos para completar
+            lockDuration: 60000
           }
         ]
       })
@@ -35,9 +48,6 @@ export async function fetchAndLockTask(topic) {
   return tasks.length > 0 ? tasks[0] : null;
 }
 
-/**
- * Completa la tarea external con las variables del formulario.
- */
 export async function completeExternalTask(taskId, personData) {
   const response = await fetch(
     `${CAMUNDA_ENGINE}/external-task/${taskId}/complete`,
@@ -47,10 +57,10 @@ export async function completeExternalTask(taskId, personData) {
       body: JSON.stringify({
         workerId: WORKER_ID,
         variables: {
-          personName:     { value: personData.personName,                type: "String" },
-          personLastName: { value: personData.personLastName,            type: "String" },
-          numberPhone:    { value: personData.numberPhone.toString(),    type: "String" },
-          email:          { value: personData.email,                     type: "String" }
+          personName:     { value: personData.personName,             type: "String" },
+          personLastName: { value: personData.personLastName,         type: "String" },
+          numberPhone:    { value: personData.numberPhone.toString(), type: "String" },
+          email:          { value: personData.email,                  type: "String" }
         }
       })
     }
@@ -64,10 +74,6 @@ export async function completeExternalTask(taskId, personData) {
   return true;
 }
 
-/**
- * Reporta un fallo a Camunda si algo sale mal en el cliente.
- * Útil para no dejar tareas bloqueadas indefinidamente.
- */
 export async function reportTaskFailure(taskId, errorMessage) {
   await fetch(
     `${CAMUNDA_ENGINE}/external-task/${taskId}/failure`,

@@ -36,6 +36,7 @@ public class NotifyResultsProcess implements JavaDelegate {
         boolean isProcessed = pqr.isPresent() && pqr.get().getIsProcessed();
         String result = isProcessed ? "Felicidades tu PQR ha sido procesada" : "Lo sentimos tu PQR no fue admitida";
         String file = isProcessed?ACCEPTED_FILE:REJECTED_FILE;
+        System.out.println("Enviado correo");
         emailService.sendEmail(email,SUBJECT,result, file);
     }
 }

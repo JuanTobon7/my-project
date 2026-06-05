@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class RegisterInCrmProcess implements JavaDelegate {
     private final ClientRepository clientRepository;
-    private final TaskService taskService;
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
@@ -34,6 +33,6 @@ public class RegisterInCrmProcess implements JavaDelegate {
                     .lastName(personLastName)
                     .build();
             clientRepository.save(client);
-            taskService.setVariable(execution.getProcessInstanceId(), "register_person_status", Boolean .TRUE);
-        }
+            execution.setVariable("register_person_status", Boolean.TRUE);
+    }
 }
