@@ -12,6 +12,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/client")
 @RequiredArgsConstructor
+@CrossOrigin(
+        origins = {"http://localhost:3000", "http://localhost:3001", "http://localhost:3002"}
+)
 public class ClientRestController {
     private final EmailService emailService;
 

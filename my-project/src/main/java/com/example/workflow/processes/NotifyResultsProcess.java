@@ -28,7 +28,7 @@ public class NotifyResultsProcess implements JavaDelegate {
         Boolean clientIsInSystem = (Boolean) delegateExecution.getVariable("client_in_system");
         if(!clientIsInSystem){
             String result = "No perteneces al sistema ingresa por favor con el link:" +
-                    "http://localhost:3000/register-person";
+                    "http://localhost:3001/register-person";
             emailService.sendEmail(email,NO_REGISTERED,result, null);
             return;
         }

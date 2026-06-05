@@ -37,7 +37,7 @@ public class ClientRepositoryImpl implements ClientRepository {
         List<Map<String, Object>> clients = jsonStore.getAll("clients");
         return clients.stream()
                 .map(Clients::fromMap)
-                .filter(c-> c.getPhone().equals(number))
+                .filter(c -> c.getPhone().equals(number))
                 .findFirst();
     }
 

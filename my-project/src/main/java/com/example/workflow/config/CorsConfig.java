@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import java.io.IOException;
+import java.util.List;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -20,7 +21,16 @@ public class CorsConfig implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request   = (HttpServletRequest) req;
 
-        response.setHeader("Access-Control-Allow-Origin",  "http://localhost:3000");
+        List<String> allowedOrigins = List.of(
+                "http://localhost:3000",
+                "http://localhost:3001",
+                "http://localhost:3002"
+        );
+
+        String origin = request.getHeader("Origin");
+        if (origin != null && allowedOrigins.contains(origin)) {
+            response.setHeader("Access-Control-Allow-Origin", origin);
+        }
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "*");
         response.setHeader("Access-Control-Max-Age",       "3600");

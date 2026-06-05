@@ -14,22 +14,18 @@ export const WORKER_ID = "react-frontend-worker";
  */
 export async function startRegisterProcess(variables = {}) {
   const response = await fetch(
-    `${CAMUNDA_ENGINE}/process-definition/key/PARENT_PROCESS_KEY/start`,
+    `${CAMUNDA_ENGINE}/process-definition/key/pqr_great_parent/start`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ variables })
     }
   );
-
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
-    throw new Error(
-      `Error al iniciar proceso: ${response.status} — ${JSON.stringify(error)}`
-    );
+    throw new Error(`Error al iniciar proceso: ${response.status} — ${JSON.stringify(error)}`);
   }
-
-  return await response.json(); // { id, definitionId, businessKey, ... }
+  return await response.json();
 }
 
 // ─────────────────────────────────────────────

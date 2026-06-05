@@ -49,4 +49,9 @@ public class ClientServiceImpl implements ClientService {
         clientRepository.save(client);
         return client;
     }
+
+    @Override
+    public Clients getClientByPhone(Long number) {
+        return clientRepository.findByNumberPhone(number).orElse(null);
+    }
 }

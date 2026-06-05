@@ -2,11 +2,11 @@ package com.example.workflow.controller;
 
 import com.example.workflow.dto.StartPqrRequest;
 import com.example.workflow.model.PQR;
-import com.example.workflow.model.PqrType;
 import com.example.workflow.service.interf.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.task.Task;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +18,7 @@ import java.util.UUID;
 @RequestMapping("/pqr")
 @RequiredArgsConstructor
 @CrossOrigin(
-        origins = "http://localhost:3000", // React/Vite
-        allowCredentials = "true"
+        origins = {"http://localhost:3000", "http://localhost:3001", "http://localhost:3002"}
 )
 public class PqrRestController {
     private final ClientService clientService;
@@ -43,13 +42,30 @@ public class PqrRestController {
                 "process_pqr_ambient",
                 variables
         );
-
+        System.out.println("instancia "+ instance.getId());
         if (!existence) {
-            taskService.complete(instance.getId(), variables);
-            return ResponseEntity.badRequest().body(
-                Map.of("message", "Lo sentimos, no perteneces a nuestro sistema"));
-        };
+            System.out.println("PQR iniciada a proximacion con instance id: " + instance.getId());
 
+            // ✅ Query the active task for this process instance
+            Task task = (Task) taskService.createTaskQuery()
+                    .processInstanceId(instance.getId())
+                    .singleResult();
+
+            if (task == null) {
+                // The process may have already completed this step automatically
+                // (e.g. via a service task or gateway), so only complete if a task exists
+                System.out.println("No active user task found for instance: " + instance.getId());
+            } else {
+                taskService.complete(task.getId(), variables); // ✅ Use task.getId()
+                System.out.println("Task completed: " + task.getId());
+            }
+
+            System.out.println("PQR iniciada correctamente con instance id: " + instance.getId());
+            return ResponseEntity.badRequest().body(
+                    Map.of("message", "Lo sentimos, no perteneces a nuestro sistema"));
+        }
+
+        System.out.println("PQR iniciada correctamente con instance id: "+ instance.getId());
         return ResponseEntity.ok(Map.of(
                 "instanceId",          instance.getId(),
                 "processDefinitionId", instance.getProcessDefinitionId(),

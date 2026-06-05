@@ -13,5 +13,6 @@ public interface ClientService {
     List<PQR> getPqrByClientEmail(String email);
     String getResult(UUID id);
     Clients saveClient(ClientRequest clientRequest);
+    Clients getClientByPhone(Long number);
 
 }

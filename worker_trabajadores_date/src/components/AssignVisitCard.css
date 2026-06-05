@@ -1,0 +1,167 @@
+/* AssignVisitCard.css */
+
+.assign-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px;
+  background: #fafafa;
+  transition: border-color 0.2s;
+}
+
+.assign-card--done {
+  border-color: #86efac;
+  background: #f0fdf4;
+}
+
+.assign-card__label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9ca3af;
+  margin: 0 0 6px;
+}
+
+.assign-card__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 14px;
+}
+
+.assign-card__fields {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.assign-card__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 160px;
+}
+
+.assign-card__field-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.assign-card__select,
+.assign-card__date {
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
+  color: #111827;
+  cursor: pointer;
+  width: 100%;
+}
+
+.assign-card__select:disabled,
+.assign-card__date:disabled {
+  background: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.assign-card__select:focus,
+.assign-card__date:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.assign-card__btn {
+  margin-top: 14px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  background: #2563eb;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.15s;
+  min-height: 40px;
+}
+
+.assign-card__btn:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.assign-card__btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.assign-card__spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.assign-card__message--error {
+  font-size: 13px;
+  color: #b91c1c;
+  background: #fef2f2;
+  padding: 6px 10px;
+  border-radius: 5px;
+  margin: 10px 0 0;
+}
+
+.assign-card__success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  text-align: center;
+}
+
+.assign-card__check {
+  font-size: 28px;
+  color: #16a34a;
+}
+
+.assign-card__success p {
+  font-size: 14px;
+  color: #15803d;
+  margin: 0;
+}
+
+.assign-card__reset {
+  margin-top: 4px;
+  background: none;
+  border: 1px solid #86efac;
+  border-radius: 5px;
+  color: #15803d;
+  font-size: 13px;
+  padding: 5px 12px;
+  cursor: pointer;
+}
+
+.assign-card__reset:hover {
+  background: #dcfce7;
+}
+
+.assign-card__empty {
+  font-size: 13px;
+  color: #9ca3af;
+  margin: 0;
+}
