@@ -38,7 +38,6 @@ public class PQR {
         map.put("client_email",        email != null ? email : "");
         map.put("date",         progationDate != null ? progationDate : date);
         map.put("is_processed",  isProcessed != null ? isProcessed : false);
-        System.out.println("map:"+map);
         return map;
     }
 

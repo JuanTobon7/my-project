@@ -1,6 +1,6 @@
 {
   "last_name" : "Garcia",
-  "name" : "Carlos",
-  "templates/email" : "jhondoe@gmail.com",
-  "phone" : 123456710
+  "email" : "jhondoe@gmail.com",
+  "phone" : 123456710,
+  "name" : "Carlos"
 }

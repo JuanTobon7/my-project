@@ -32,15 +32,13 @@ public class PqrRepositoryImpl implements PqrRepository {
     }
 
     @Override
-    public PQR getLastByEmail(String email) {
+    public Optional<PQR> getLastByEmail(String email) {
         List<Map<String, Object>> allPqr = jsonStore.getAll("pqr_processed");
-        // más reciente primero
         return allPqr.stream()
                 .map(PQR::fromMap)
                 .filter(pqr -> pqr.getEmail().equals(email)).min(Comparator.comparing(
                         PQR::getProgationDate,
                         Comparator.nullsLast(Comparator.reverseOrder()) // más reciente primero
-                ))
-                .orElseThrow(() -> new RuntimeException("No hay PQR para el email: " + email));
+                ));
     }
 }

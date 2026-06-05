@@ -11,8 +11,6 @@ public class ProcessPqr implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
         String clientPqr = (String) delegateExecution.getVariable("client_pqr");
-        String clientPqrDescription = (String) delegateExecution.getVariable("client_pqr_description");
-
         boolean pqrType = isValid(clientPqr);
         delegateExecution.setVariable("pqr_valid", pqrType);
         String pqrTypeClassified = classifyPQR(clientPqr);

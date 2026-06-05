@@ -55,9 +55,9 @@ public class PqrRestController {
             @RequestBody PQR pqr,
             @RequestParam("task_id") String taskId
     ) {
-        System.out.println(pqr);
-        System.out.println("email"+pqr.getEmail());
+        System.out.println("Guardando PQR:");
         taskService.complete(taskId, pqr.toMap());
+        System.out.println("PQR guardada");
         return ResponseEntity.ok().build();
     }
 

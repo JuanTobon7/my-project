@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-@Component("StorePqrProcess")
+@Component("storePqrProcess")
 public class StorePqrProcess implements JavaDelegate {
     private final JsonStore jsonStore;
 
@@ -19,6 +19,7 @@ public class StorePqrProcess implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
+        System.out.println("Almacenando PQR");
         String clientName = (String) delegateExecution.getVariable("client_name");
         String clientLastName = (String) delegateExecution.getVariable("client_last_name");
         String clientPqr = (String) delegateExecution.getVariable("client_pqr");
@@ -37,5 +38,6 @@ public class StorePqrProcess implements JavaDelegate {
                 .email(email)
                 .build();
         jsonStore.save(pqr.toMap(), (String) pqr.toMap().get("id"), PQR_PROCESSED);
+        System.out.println("PQR almacenada");
     }
 }

@@ -19,13 +19,19 @@ public class SeederClient implements CommandLineRunner {
                 "name", "Juan",
                 "last_name", "Tobon",
                 "phone", 3212527494L,
-                    "templates/email", "jctobon@gmail.com"
+                    "email", "jctobon@gmail.com"
             ),
             Map.of(
              "name", "Carlos",
              "last_name", "Garcia",
              "phone", 123456710L,
-                    "templates/email", "jhondoe@gmail.com"
+                    "email", "jhondoe@gmail.com"
+            ),
+            Map.of(
+                    "name", "Jhon",
+                    "last_name", "Doe",
+                    "phone", 111L,
+                    "email", "koyat39329@dosbee.com"
             )
         );
         clientRepository.saveAll(clients);

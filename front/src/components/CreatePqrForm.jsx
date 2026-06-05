@@ -61,44 +61,39 @@ const CreatePqrForm = ({ onSuccess, onCancel }) => {
     setLoading(true);
 
     try {
-      // PASO 1: Iniciar el proceso en Camunda
+      // ✅ PASO 1: Iniciar el proceso en Camunda
       console.log('✅ PASO 1: Iniciando proceso PQR...');
       const startResponse = await pqrService.startPqrProcess(
         formData.pqrType,
         formData.description,
         client.email
       );
-
       const instanceId = startResponse.data.instanceId;
       console.log('✅ PASO 1 Éxito - instanceId:', instanceId);
 
-      // PASO 2: Obtener el taskId de la tarea pendiente
+      // ✅ PASO 2: Obtener el taskId pendiente
       console.log('✅ PASO 2: Obteniendo taskId del proceso...');
       const taskResponse = await pqrService.getPendingTask(instanceId);
-
       const taskId = taskResponse.data.taskId;
       console.log('✅ PASO 2 Éxito - taskId:', taskId);
 
-      // PASO 3: Construir el objeto PQR completo
-      console.log('✅ PASO 3: Construyendo objeto PQR completo...');
+      // ✅ PASO 3: Construir objeto PQR completo
+      console.log('✅ PASO 3: Construyendo objeto PQR...');
       const completePqr = {
-        pqr: formData.pqrType,
+        pqr: `PQR-${Date.now()}`,
         description: formData.description,
         clientName: client.name,
         clientLastName: client.lastName,
         clientPhone: parseInt(client.phone),
         pqrType: formData.pqrType,
-        progationDate: null,
-        email: client.email,
+        progationDate: new Date().toISOString(),
         isProcessed: false
       };
-
       console.log('Objeto PQR:', completePqr);
 
-      // PASO 4: Guardar la PQR en la base de datos y completar tarea Camunda
-      console.log('✅ PASO 4: Guardando PQR en la base de datos...');
+      // ✅ PASO 4: Guardar PQR y completar tarea Camunda
+      console.log('✅ PASO 4: Guardando PQR en base de datos...');
       const saveResponse = await pqrService.savePqr(completePqr, taskId);
-
       console.log('✅ PASO 4 Éxito - Respuesta:', saveResponse.data);
 
       setSuccessMessage('¡PQR creada exitosamente!');
